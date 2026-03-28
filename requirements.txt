@@ -1,2 +1,7 @@
-Flask==3.0.3
-gunicorn==22.0.0
+flask
+flask_cors
+requests
+python-dotenv
+google-auth
+google-api-python-client
+gunicorn

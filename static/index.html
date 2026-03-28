@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oppor Tune</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ ONBOARDING ══ -->
+<div id="onboarding" class="hidden">
+
+  <!-- Avatar picker modal -->
+  <div id="avatar-picker" class="avatar-picker hidden">
+    <div class="avatar-picker-inner">
+      <div class="avatar-picker-title">Choose your avatar</div>
+      <div class="avatar-grid" id="avatar-grid"></div>
+      <label class="avatar-upload-btn">📷 Upload photo<input type="file" id="avatar-upload" accept="image/*" style="display:none"/></label>
+      <button class="btn-ghost" id="avatar-cancel" style="margin-top:10px;width:100%">Cancel</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 1: ID Card ── -->
+  <div class="ob-screen" id="ob-step-1">
+    <div class="ob-split">
+
+      <!-- LEFT: Brand intro -->
+      <div class="ob-brand-col">
+        <div class="ob-logo-top">◈ OpporTune</div>
+        <div class="ob-brand-headline">Your AI-powered<br/>opportunity compass.</div>
+        <div class="ob-brand-sub">We scan thousands of opportunities daily and surface the ones that actually fit your major, interests, and goals — then brief you with a personalized voice broadcast.</div>
+        <div class="ob-features">
+          <div class="ob-feat"><span class="ob-feat-icon">✦</span>Matched to your major &amp; field</div>
+          <div class="ob-feat"><span class="ob-feat-icon">✦</span>Voice broadcast of curated picks</div>
+          <div class="ob-feat"><span class="ob-feat-icon">✦</span>Google Calendar integration</div>
+          <div class="ob-feat"><span class="ob-feat-icon">✦</span>AI guide you can chat with</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Card + button -->
+      <div class="ob-card-col">
+        <div class="card-3d-scene" id="card-scene">
+          <div class="id-card" id="id-card">
+            <div class="id-card-header" id="id-card-header">
+              <div class="id-card-logo">◈ OPPORTUNITY COMPASS</div>
+              <div class="id-card-badge" id="id-card-school-badge">STUDENT PROFILE</div>
+            </div>
+            <div class="id-card-body">
+              <div class="id-avatar-col">
+                <div class="id-avatar" id="id-avatar" title="Click to change">
+                  <span class="id-avatar-initials" id="id-avatar-initials">?</span>
+                  <img id="id-avatar-img" src="" style="display:none"/>
+                  <div class="id-avatar-overlay">✏️</div>
+                </div>
+                <div class="id-edu-badge" id="id-edu-badge"></div>
+              </div>
+              <div class="id-fields-col">
+                <div class="id-field-row"><span class="id-field-label">NAME</span><input class="id-field-input" id="idf-name" placeholder="Your name"/></div>
+                <div class="id-field-row"><span class="id-field-label">EMAIL</span><input class="id-field-input" id="idf-email" placeholder="your@school.edu" type="email"/></div>
+                <div class="id-field-row"><span class="id-field-label">SCHOOL</span><input class="id-field-input" id="idf-school" placeholder="University or Company"/></div>
+                <div class="id-field-row"><span class="id-field-label">MAJOR / FIELD</span><input class="id-field-input" id="idf-major" placeholder="e.g. Fashion Design, CS, Finance…"/></div>
+                <div class="id-field-row two-col">
+                  <div><span class="id-field-label">STATUS</span>
+                    <select class="id-field-input id-field-select" id="idf-edu">
+                      <option value="undergraduate student">Undergrad</option>
+                      <option value="graduate student">Graduate</option>
+                      <option value="PhD student">PhD</option>
+                      <option value="early career professional">Early Career</option>
+                    </select>
+                  </div>
+                  <div><span class="id-field-label" id="idf-year-label">CLASS OF</span>
+                    <input class="id-field-input" id="idf-year" placeholder="2027" style="width:80px"/>
+                  </div>
+                </div>
+                <div class="id-field-row"><span class="id-field-label">LOCATION</span><input class="id-field-input" id="idf-location" placeholder="City, State"/></div>
+              </div>
+            </div>
+            <div class="id-card-footer">
+              <div class="id-barcode"></div>
+              <div class="id-card-id" id="id-card-id">ID: ——————</div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-primary ob-cta" id="ob-to-render">Generate My ID ✦</button>
+        <div class="ob-steps-indicator" style="justify-content:center"><span class="si active"></span><span class="si"></span><span class="si"></span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── RENDER SCREEN ── -->
+  <div class="ob-screen hidden" id="ob-render-screen">
+    <div class="ob-wrapper ob-render-wrapper">
+      <div class="ob-render-card-wrap" id="ob-render-card-wrap">
+        <!-- Card clone is injected here by JS -->
+      </div>
+      <div class="ob-render-msg" id="ob-render-msg">Building your profile…</div>
+      <div class="ob-render-dots" id="ob-render-dots"><span></span><span></span><span></span></div>
+      <button class="btn-primary ob-cta hidden" id="ob-render-continue" style="margin-top:8px">Choose your interests →</button>
+      <div id="confetti-container" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: Interests & Activities ── -->
+  <div class="ob-screen hidden" id="ob-step-2">
+    <div class="ob-wrapper ob-wrapper-wide">
+      <div class="ob-headline">
+        <div class="ob-logo-top">◈ OpporTune</div>
+        <p class="ob-tagline">What kind of opportunities are you looking for?</p>
+        <div class="ob-steps-indicator"><span class="si done"></span><span class="si active"></span><span class="si"></span></div>
+      </div>
+      <div class="ob-s2-meta">
+        <span class="ob-section-title" id="ob-s2-hint"></span>
+        <span class="ob-s2-sub">Select all that apply</span>
+      </div>
+      <div class="ob-chips-grid">
+        <div class="ob-chips-col">
+          <div class="ob-chips-col-title" id="chips-col-title-1">✦ Curated for you</div>
+          <div class="ob-chips" id="chips-activities"></div>
+        </div>
+        <div class="ob-chips-col">
+          <div class="ob-chips-col-title" id="chips-col-title-2">◎ Also explore</div>
+          <div class="ob-chips" id="chips-activities-extra"></div>
+        </div>
+      </div>
+      <div class="ob-s2-footer">
+        <span class="ob-s2-count" id="ob-s2-count">0 selected</span>
+        <button class="btn-primary ob-cta ob-cta-inline" id="ob-to-delivery">Set up delivery →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: Delivery Setup ── -->
+  <div class="ob-screen hidden" id="ob-step-3">
+    <div class="ob-wrapper">
+      <div class="ob-headline">
+        <div class="ob-logo-top">◈ OpporTune</div>
+        <p class="ob-tagline">How should we deliver your opportunities?</p>
+        <div class="ob-steps-indicator"><span class="si done"></span><span class="si done"></span><span class="si active"></span></div>
+      </div>
+
+      <!-- Frequency -->
+      <div class="delivery-section">
+        <div class="delivery-label">📅 Push frequency</div>
+        <div class="delivery-toggle" id="freq-toggle">
+          <button class="dtog active" data-val="daily">Daily</button>
+          <button class="dtog" data-val="weekly">Weekly</button>
+          <button class="dtog" data-val="custom">Custom</button>
+        </div>
+        <div id="custom-time-row" class="hidden" style="margin-top:10px;display:flex;align-items:center;gap:10px">
+          <span style="font-size:13px;color:var(--sub)">Time:</span>
+          <input type="time" id="push-time" value="08:00" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:13px;outline:none"/>
+        </div>
+      </div>
+
+      <!-- Delivery methods -->
+      <div class="delivery-section">
+        <div class="delivery-label">📬 Delivery method <span style="font-size:11px;color:var(--sub)">(select all that apply)</span></div>
+
+        <!-- Google Calendar -->
+        <div class="delivery-method-card" id="dm-calendar">
+          <div class="dm-left">
+            <div class="dm-icon">📆</div>
+            <div>
+              <div class="dm-title">Google Calendar</div>
+              <div class="dm-sub">Opportunities get added as events with reminders</div>
+            </div>
+          </div>
+          <button class="dm-connect-btn" id="btn-connect-cal">Connect</button>
+        </div>
+
+        <!-- Email -->
+        <div class="delivery-method-card" id="dm-email">
+          <div class="dm-left">
+            <div class="dm-icon">✉️</div>
+            <div>
+              <div class="dm-title">Email digest</div>
+              <div class="dm-sub">Weekly summary sent to your inbox</div>
+            </div>
+          </div>
+          <div class="dm-right-input">
+            <input type="email" id="delivery-email" placeholder="your@email.com" class="dm-email-input"/>
+            <button class="dm-connect-btn" id="btn-confirm-email">Confirm</button>
+          </div>
+        </div>
+
+        <!-- In-app -->
+        <div class="delivery-method-card dm-selected" id="dm-inapp">
+          <div class="dm-left">
+            <div class="dm-icon">🔔</div>
+            <div>
+              <div class="dm-title">In-app only</div>
+              <div class="dm-sub">Check the dashboard anytime</div>
+            </div>
+          </div>
+          <div class="dm-check" id="dm-inapp-check">✓ ON</div>
+        </div>
+
+        <!-- .edu — Coming Soon -->
+        <div class="delivery-method-card dm-coming-soon" id="dm-edu">
+          <div class="dm-left">
+            <div class="dm-icon">🎓</div>
+            <div>
+              <div class="dm-title">.edu Campus Events <span class="dm-soon-badge">Coming Soon</span></div>
+              <div class="dm-sub">We'll surface events from your university's calendar & email — requires read-only .edu account access via OAuth. <a href="#" class="dm-learn-more" id="dm-edu-learn">Learn more</a></div>
+            </div>
+          </div>
+          <button class="dm-connect-btn dm-waitlist-btn" id="btn-edu-waitlist">Join waitlist</button>
+        </div>
+        <!-- .edu explainer (hidden by default) -->
+        <div class="edu-explainer hidden" id="edu-explainer">
+          <strong>How it would work:</strong> We'd ask for read-only access to your .edu email via Google OAuth or your university's SSO. We scan for event emails, club announcements, and career center postings — then surface them in your feed. We never read personal emails or store your credentials. This requires university-by-university integration which we're actively building.
+        </div>
+      </div>
+
+      <button class="btn-primary ob-cta" id="ob-finish">Start Exploring ✦</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ MAIN APP ══ -->
+<div id="app" class="hidden">
+
+  <header>
+    <div class="logo">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">Oppor<span class="accent">Tune</span></span>
+    </div>
+    <div class="header-center" id="broadcast-status"></div>
+    <div class="header-actions">
+      <button id="btn-profile" class="btn-ghost" title="Edit profile">👤 <span id="header-name"></span></button>
+      <button id="btn-refresh" class="btn-ghost">↻</button>
+      <button id="btn-broadcast" class="btn-primary">▶ Broadcast</button>
+    </div>
+  </header>
+
+  <!-- Broadcast controls bar -->
+  <div id="broadcast-bar" class="hidden">
+    <div class="bc-info">
+      <span class="bc-dot"></span>
+      <span id="bc-label">Broadcasting...</span>
+    </div>
+    <div class="bc-controls">
+      <button id="btn-prev">⏮</button>
+      <button id="btn-pause">⏸</button>
+      <button id="btn-next">⏭</button>
+      <button id="btn-stop" class="stop">■ Stop</button>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="topbar">
+    <span id="stats-text" class="stat-text">Loading...</span>
+    <div class="filters">
+      <button class="filter-btn active" data-type="all">All</button>
+      <button class="filter-btn" data-type="Hackathon">Hackathons</button>
+      <button class="filter-btn" data-type="Industry News">News</button>
+    </div>
+  </div>
+
+  <!-- Two-panel layout -->
+  <div class="panels">
+
+    <!-- LEFT: Checklist -->
+    <div class="panel-left" id="checklist">
+      <div class="loading"><div class="spinner"></div><p>Fetching opportunities...</p></div>
+    </div>
+
+    <!-- RIGHT: Chat -->
+    <div class="panel-right" id="chat-panel">
+      <div class="chat-header">
+        <div class="chat-title">AI Guide</div>
+        <div class="chat-context" id="chat-context">Select an opportunity to ask about it</div>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-msg ai">
+          <div class="msg-bubble">
+            Hey! I'm your OpporTune guide. Once opportunities load, click any card or start the broadcast — I'll explain why each one might be a great fit for you. You can also ask me anything here.
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chat-input" placeholder="Ask about this opportunity..." />
+        <button id="chat-send">Send</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
